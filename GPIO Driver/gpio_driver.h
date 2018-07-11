@@ -7,26 +7,23 @@
  *                                                                          *
  *                  Macros used for pin initialization                      *
  *                                                                          *
- ****************************************************************************/                
+ ****************************************************************************/ 
 /* GPIO mode setting values */
-#define GPIO_PIN_INPUT_MODE                     ( (uint32_t)0x00 )
-#define GPIO_PIN_OUTPUT_MODE                    ( (uint32_t)0x01 )
-#define GPIO_PIN_ALT_FUN_MODE                   ( (uint32_t)0x02 )
+#define GPIO_PIN_ANALOG                     		( (uint32_t)0x00 )
+#define GPIO_PIN_DIGITAL                    		( (uint32_t)0x01 )
 
-/* GPIO output type selection values */
-#define GPIO_PIN_OP_TYPE_PUSHPULL               ( (uint32_t)0x00 )
-#define GPIO_PIN_OP_TYPE_OPEN_DRAIN             ( (uint32_t)0x01 )
+/* GPIO alt func setting values */
+#define GPIO_PIN_DISABLE_AF                   	( (uint32_t)0x01 )
+// To be implemented: 16 alt func's
 
-/* GPIO speed setting values */
-#define GPIO_PIN_SPEED_LOW                      ( (uint32_t)0x00 )
-#define GPIO_PIN_SPEED_MEDIUM                   ( (uint32_t)0x01 )
-#define GPIO_PIN_SPEED_HIGH                     ( (uint32_t)0x02 )
-#define GPIO_PIN_SPEED_VERY_HIGH                ( (uint32_t)0x03 )
+/* GPIO direction setting values */
+#define GPIO_PIN_INPUT                     			( (uint32_t)0x00 )
+#define GPIO_PIN_OUTPUT                    			( (uint32_t)0x01 )
 
-/* GPIO pull up/down selection values */
-#define GPIO_PIN_NO_PULL_PUSH                   ( (uint32_t)0x00 )
-#define GPIO_PIN_PULL_UP                        ( (uint32_t)0x01 )
-#define GPIO_PIN_PULL_DOWN                      ( (uint32_t)0x11 )
+/* GPIO pull up/down type selection values */
+#define GPIO_PIN_PULL_UP                        ( (uint32_t)0x00 )
+#define GPIO_PIN_PULL_DOWN                      ( (uint32_t)0x01 )
+#define GPIO_PIN_OPEN_DRAIN             				( (uint32_t)0x02 )
 
 /* GPIO port address */
 #define GPIO_PORT_A     GPIOA
@@ -41,24 +38,23 @@
 
 /* Enable the clock for different ports using RCC registers */
 // Check the user manual and implement them!
-#define RCC_GPIOA_CLK_ENABLE()
-#define RCC_GPIOB_CLK_ENABLE()
-#define RCC_GPIOC_CLK_ENABLE()
-#define RCC_GPIOD_CLK_ENABLE()
-#define RCC_GPIOE_CLK_ENABLE()
-#define RCC_GPIOF_CLK_ENABLE()
-#define RCC_GPIOG_CLK_ENABLE()
-#define RCC_GPIOH_CLK_ENABLE()
-#define RCC_GPIOI_CLK_ENABLE()
+#define RCC_GPIOA_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 0);
+#define RCC_GPIOB_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 1);
+#define RCC_GPIOC_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 2);
+#define RCC_GPIOD_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 3);
+#define RCC_GPIOE_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 4);
+#define RCC_GPIOF_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 5);
+#define RCC_GPIOG_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 6);
+#define RCC_GPIOH_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 7);
+#define RCC_GPIOI_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 8);
 
 typedef struct {
     uint32_t pin;
     uint32_t mode;
-    uint32_t op_type;
-    uint32_t pull;
-    uint32_t speed;
+    uint32_t io_type;
+    uint32_t pupd;
     uint32_t alternate;
-} gpio_pin_conf_t
+} gpio_pin_conf_t;
 
 /****************************************************************************
  *                                                                          *
@@ -71,53 +67,42 @@ typedef struct {
  *param: gpio_pin_conf: GPIO pin to configure
  *return: none
 */
-static void gpio_init(GPIOA_Type *GPIOx, gpio_pin_conf_t *gpio_pin_conf){
+static void gpio_init(GPIOA_Type *GPIOx, gpio_pin_conf_t *gpio_pin_conf);
 
-}
+/*
+ *brief: Unlocks the pin to enable configurations
+ *param: *GPIOx: GPIO port base address
+ *param: pin_no: GPIO pin #
+ *return: none
+*/
+static void gpio_configure_pin_unlock(GPIOA_Type *GPIOx, uint16_t pin_no);
 
 /*
  *brief: Configures the mode of a pin: input, output, alt or analogue mode
  *param: *GPIOx: GPIO port base address
  *param: pin_no: GPIO pin #
- *param: mode: mode to be configured
+ *param: mode: mode to be configured, analog or digital
  *return: none
 */
-static void gpio_configure_pin_mode(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t mode){
-
-}
+static void gpio_configure_pin_mode(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t mode);
 
 /*
  *brief: Configures the output type of a pin
  *param: *GPIOx: GPIO port base address
  *param: pin_no: GPIO pin #
- *param: op_type: output type to be configured
+ *param: op_type: I/O type to be configured
  *return: none
 */
-static void gpio_configure_pin_otype(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t op_type){
-
-}
+static void gpio_configure_pin_iotype(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t io_type);
 
 /*
- *brief: Configures the speed of a pin
+ *brief: Configures the pull up/down register of a pin
  *param: *GPIOx: GPIO port base address
  *param: pin_no: GPIO pin #
- *param: speed: speed to be configured
+ *param: pupd: pull up/down or open drain to be configured
  *return: none
 */
-static void gpio_configure_pin_speed(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t speed){
-
-}
-
-/*
- *brief: Activate internal pull up or pull down resistors
- *param: *GPIOx: GPIO port base address
- *param: pin_no: GPIO pin #
- *param: pupd: specify the resistor to activate
- *return: none
-*/
-static void gpio_configure_pin_pupd(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t pupd){
-
-}
+static void gpio_configure_pin_pupd(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t pupd);
 
 /*
  *brief: Activate internal pull up or pull down resistors
@@ -126,9 +111,7 @@ static void gpio_configure_pin_pupd(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t
  *param: alt_fun_value: alternate function to be configed with
  *return: none
 */
-static void gpio_set_alt_function(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t alt_fun_value){
-
-}
+static void gpio_set_alt_function(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t alt_fun_value);
 
 /*
  *brief: Read value from a pin
@@ -136,9 +119,7 @@ static void gpio_set_alt_function(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t a
  *param: pin_no: GPIO pin #
  *return: uint8_t: Value read
 */
-uint8_t gpio_read_from_pin(GPIOA_Type *GPIOx, uint16_t pin_no) {
-
-}
+uint8_t gpio_read_from_pin(GPIOA_Type *GPIOx, uint16_t pin_no);
 
 /*
  *brief: Write value to a pin
@@ -147,21 +128,6 @@ uint8_t gpio_read_from_pin(GPIOA_Type *GPIOx, uint16_t pin_no) {
  *param: val: The value to write to the pin
  *return: uint8_t: Value read
 */
-void gpio_write_to_pin(GPIOA_Type *GPIOx, uint16_t pin_no, uint8_t val) {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+void gpio_write_to_pin(GPIOA_Type *GPIOx, uint16_t pin_no, uint8_t val);
 
 #endif
