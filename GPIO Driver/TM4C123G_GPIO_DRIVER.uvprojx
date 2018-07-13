@@ -257,17 +257,17 @@
                 <Size>0x0</Size>
               </XRAM>
               <OCR_RVCT1>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT1>
               <OCR_RVCT2>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT2>
               <OCR_RVCT3>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT3>
@@ -277,7 +277,7 @@
                 <Size>0x40000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT5>
@@ -380,17 +380,15 @@
       <Groups>
         <Group>
           <GroupName>Application</GroupName>
-          <Files>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
-          <GroupName>HAL_Src</GroupName>
+          <GroupName>Driver</GroupName>
           <Files>
+            <File>
+              <FileName>gpio_driver.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\gpio_driver.h</FilePath>
+            </File>
             <File>
               <FileName>gpio_driver.c</FileName>
               <FileType>1</FileType>
@@ -399,12 +397,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>HAL_Inc</GroupName>
+          <GroupName>User App</GroupName>
           <Files>
             <File>
-              <FileName>gpio_driver.h</FileName>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\gpio_driver.h</FilePath>
+              <FilePath>.\led.h</FilePath>
             </File>
           </Files>
         </Group>

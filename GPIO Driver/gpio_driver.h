@@ -21,9 +21,10 @@
 #define GPIO_PIN_OUTPUT                    			( (uint32_t)0x01 )
 
 /* GPIO pull up/down type selection values */
-#define GPIO_PIN_PULL_UP                        ( (uint32_t)0x00 )
-#define GPIO_PIN_PULL_DOWN                      ( (uint32_t)0x01 )
-#define GPIO_PIN_OPEN_DRAIN             				( (uint32_t)0x02 )
+#define GPIO_PIN_NO_PUPD												( (uint32_t)0x00 )
+#define GPIO_PIN_PULL_UP                        ( (uint32_t)0x01 )
+#define GPIO_PIN_PULL_DOWN                      ( (uint32_t)0x02 )
+#define GPIO_PIN_OPEN_DRAIN             				( (uint32_t)0x03 )
 
 /* GPIO port address */
 #define GPIO_PORT_A     GPIOA
@@ -38,15 +39,33 @@
 
 /* Enable the clock for different ports using RCC registers */
 // Check the user manual and implement them!
-#define RCC_GPIOA_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 0);
-#define RCC_GPIOB_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 1);
-#define RCC_GPIOC_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 2);
-#define RCC_GPIOD_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 3);
-#define RCC_GPIOE_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 4);
-#define RCC_GPIOF_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 5);
-#define RCC_GPIOG_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 6);
-#define RCC_GPIOH_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 7);
-#define RCC_GPIOI_CLK_ENABLE()              SYSCTL->RCGC2 |= (0x01 << 8);
+#define RCC_GPIOA_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 0);\
+                                    delay = SYSCTL->RCGC2;
+#define RCC_GPIOB_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 1);\
+                                    delay = SYSCTL->RCGC2;
+#define RCC_GPIOC_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 2);\
+                                    delay = SYSCTL->RCGC2;
+#define RCC_GPIOD_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 3);\
+                                    delay = SYSCTL->RCGC2;
+#define RCC_GPIOE_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 4);\
+                                    delay = SYSCTL->RCGC2;
+#define RCC_GPIOF_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 5);\
+                                    delay = SYSCTL->RCGC2;
+#define RCC_GPIOG_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 6);\
+                                    delay = SYSCTL->RCGC2;
+#define RCC_GPIOH_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 7);\
+                                    delay = SYSCTL->RCGC2;
+#define RCC_GPIOI_CLK_ENABLE()      volatile unsigned long delay;\
+                                    SYSCTL->RCGC2 |= (0x01 << 8);\
+                                    delay = SYSCTL->RCGC2;
 
 typedef struct {
     uint32_t pin;
@@ -61,13 +80,6 @@ typedef struct {
  *                            Driver exposed API                            *
  *                                                                          *
  ****************************************************************************/ 
-/*
- *brief: Configures a pin
- *param: *GPIOx: GPIO port base address
- *param: gpio_pin_conf: GPIO pin to configure
- *return: none
-*/
-static void gpio_init(GPIOA_Type *GPIOx, gpio_pin_conf_t *gpio_pin_conf);
 
 /*
  *brief: Unlocks the pin to enable configurations
@@ -129,5 +141,13 @@ uint8_t gpio_read_from_pin(GPIOA_Type *GPIOx, uint16_t pin_no);
  *return: uint8_t: Value read
 */
 void gpio_write_to_pin(GPIOA_Type *GPIOx, uint16_t pin_no, uint8_t val);
+
+/*
+ *brief: Configures a pin
+ *param: *GPIOx: GPIO port base address
+ *param: gpio_pin_conf: GPIO pin to configure
+ *return: none
+*/
+void gpio_init(GPIOA_Type *GPIOx, gpio_pin_conf_t *gpio_pin_conf);
 
 #endif

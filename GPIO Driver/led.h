@@ -5,21 +5,18 @@
 #include "TM4C123GH6PM.h"
 
 #define EXTIx_IRQn 						EXTI0_IRQn
-#define EXTIx_IRQHandler                EXTI0_IRQHandler
+#define EXTIx_IRQHandler      EXTI0_IRQHandler
 
-#define GPIO_BUTTON_PIN				    0
-#define GPIO_BUTTON_PORT			    GPIOA
+#define GPIO_BUTTON_PIN				0
+#define GPIO_LED_PORT					GPIOF
 
+#define GPIOF_PIN_1 					1
+#define GPIOF_PIN_2						2
+#define GPIOF_PIN_3 					3
 
-#define GPIOD_PIN_12 					12
-#define GPIOD_PIN_13 					13
-#define GPIOD_PIN_14 					14
-#define GPIOD_PIN_15 					15
-
-#define LED_GREEN 						GPIOD_PIN_12
-#define LED_ORANGE 						GPIOD_PIN_13
-#define LED_RED  							GPIOD_PIN_14
-#define LED_BLUE	 				    GPIOD_PIN_15
+#define LED_RED		 						GPIOF_PIN_1
+#define LED_BLUE 							GPIOF_PIN_2
+#define LED_GREEN	 				    GPIOF_PIN_3
 
 void led_init(void);
 

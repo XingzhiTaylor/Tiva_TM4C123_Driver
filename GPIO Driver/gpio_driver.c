@@ -2,25 +2,6 @@
 #include "TM4C123GH6PM.h"
 
 /*
- *brief: Configures a pin
- *param: *GPIOx: GPIO port base address
- *param: gpio_pin_conf: GPIO pin to configure
- *return: none
-*/
-static void gpio_init(GPIOA_Type *GPIOx, gpio_pin_conf_t *gpio_pin_conf){
-    //unlock
-    gpio_configure_pin_unlock(GPIOx, gpio_pin_conf->pin);
-    //alternate func
-    gpio_set_alt_function(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->alternate);
-    //mode
-    gpio_configure_pin_mode(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->mode);
-    //dir
-    gpio_configure_pin_iotype(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->io_type);
-    //enable pupd
-    gpio_configure_pin_pupd(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->pupd);
-}
-
-/*
  *brief: Unlocks the pin to enable configurations
  *param: *GPIOx: GPIO port base address
  *param: pin_no: GPIO pin #
@@ -98,7 +79,7 @@ static void gpio_set_alt_function(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t a
 */
 uint8_t gpio_read_from_pin(GPIOA_Type *GPIOx, uint16_t pin_no) {
     uint8_t data;
-    data = (GPIOx->DATA >> pin_no);
+    data = ((GPIOx->DATA & (0x01 << pin_no)) >> pin_no);
     return data;
 }
 
@@ -110,5 +91,29 @@ uint8_t gpio_read_from_pin(GPIOA_Type *GPIOx, uint16_t pin_no) {
  *return: uint8_t: Value read
 */
 void gpio_write_to_pin(GPIOA_Type *GPIOx, uint16_t pin_no, uint8_t val) {
-	GPIOx->DATA |= (val << pin_no);
+	if(val) {
+		GPIOx->DATA |= (0x01 << pin_no);
+	} else {
+		GPIOx->DATA &= ~(0x01 << pin_no);
+	}
+	
+}
+
+/*
+ *brief: Configures a pin
+ *param: *GPIOx: GPIO port base address
+ *param: gpio_pin_conf: GPIO pin to configure
+ *return: none
+*/
+void gpio_init(GPIOA_Type *GPIOx, gpio_pin_conf_t *gpio_pin_conf){
+    //unlock
+    gpio_configure_pin_unlock(GPIOx, gpio_pin_conf->pin);
+    //alternate func
+    gpio_set_alt_function(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->alternate);
+    //mode
+    gpio_configure_pin_mode(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->mode);
+    //dir
+    gpio_configure_pin_iotype(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->io_type);
+    //enable pupd
+    gpio_configure_pin_pupd(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->pupd);
 }
