@@ -1,6 +1,7 @@
 #include "led.h"
 #include "gpio_driver.h"
 
+// This is changable
 #define SW_PIN  GPIO_SW2_PIN
 
 void led_init(void){
@@ -70,28 +71,41 @@ int main(void) {
 	gpio_enable_interrupt(GPIO_SW_PORT, SW_PIN);
 	gpio_configure_interrupt(GPIO_SW_PORT, GPIO_SW1_PIN, GPIO_INT_FALLING_EDGE);
     while(1){
-			led_on(GPIO_LED_PORT, LED_GREEN);
-			/*
+			// Basic switching test
 			led_on(GPIO_LED_PORT, LED_RED);
 			delay(1);
+			led_off(GPIO_LED_PORT, LED_RED);
+			delay(1);
 			led_on(GPIO_LED_PORT, LED_GREEN);
 			delay(1);
-			led_on(GPIO_LED_PORT, LED_BLUE);
-			delay(1);
-			led_off(GPIO_LED_PORT, LED_RED);
-			delay(1);	
 			led_off(GPIO_LED_PORT, LED_GREEN);
 			delay(1);
+			led_on(GPIO_LED_PORT, LED_BLUE);
+			delay(1);		
 			led_off(GPIO_LED_PORT, LED_BLUE);
 			delay(1);
-			*/
+			
+			// Toggle test
+			led_toggle(GPIO_LED_PORT, LED_RED);
+			delay(1);
+			led_toggle(GPIO_LED_PORT, LED_RED);
+			delay(1);
+			led_toggle(GPIO_LED_PORT, LED_GREEN);
+			delay(1);
+			led_toggle(GPIO_LED_PORT, LED_GREEN);
+			delay(1);
+			led_toggle(GPIO_LED_PORT, LED_BLUE);
+			delay(1);		
+			led_toggle(GPIO_LED_PORT, LED_BLUE);
+			delay(1);		
     }
 }
 
 void GPIOF_Handler(void){
+	// Clear the interrupt bits, otherwise interrupt will keep being sent to the processor
 	gpio_clear_interrupt(GPIO_SW_PORT, SW_PIN);
 	NVIC_clear_interrupt(GPIO_SW_PORT, GPIOF_IRQn);
-	// Do something
+	// Flash the red LED
 	for(int i = 0; i < 4; i++){
 		led_on(GPIO_LED_PORT, LED_RED);
 		delay(1);
