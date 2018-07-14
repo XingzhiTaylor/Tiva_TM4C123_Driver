@@ -5,48 +5,48 @@
 
 /****************************************************************************
  *                                                                          *
- *                  Macros used for interrupt setup		                      *
+ *                  Macros used for interrupt setup		                    *
  *                                                                          *
  ****************************************************************************/ 
 /* Set enable registers */
-#define EN0																		( *((volatile unsigned long *) 0xE000E100) )
-#define EN1																		( *((volatile unsigned long *) 0xE000E104) )
-#define EN2																		( *((volatile unsigned long *) 0xE000E108) )
-#define EN3																		( *((volatile unsigned long *) 0xE000E10C) )
-#define EN4																		( *((volatile unsigned long *) 0xE000E110) )
+#define EN0										( *((volatile unsigned long *) 0xE000E100) )
+#define EN1										( *((volatile unsigned long *) 0xE000E104) )
+#define EN2										( *((volatile unsigned long *) 0xE000E108) )
+#define EN3										( *((volatile unsigned long *) 0xE000E10C) )
+#define EN4										( *((volatile unsigned long *) 0xE000E110) )
 
 /* Clear enable registers */
-#define DIS0																	( *((volatile unsigned long *) 0xE000E180) )
-#define DIS1																	( *((volatile unsigned long *) 0xE000E184) )
-#define DIS2																	( *((volatile unsigned long *) 0xE000E188) )
-#define DIS3																	( *((volatile unsigned long *) 0xE000E18C) )
-#define DIS4																	( *((volatile unsigned long *) 0xE000E190) )
+#define DIS0									( *((volatile unsigned long *) 0xE000E180) )
+#define DIS1									( *((volatile unsigned long *) 0xE000E184) )
+#define DIS2									( *((volatile unsigned long *) 0xE000E188) )
+#define DIS3									( *((volatile unsigned long *) 0xE000E18C) )
+#define DIS4									( *((volatile unsigned long *) 0xE000E190) )
 	
 /* Set pending registers */
-#define PEND0																	( *((volatile unsigned long *) 0xE000E200) )
-#define PEND1																	( *((volatile unsigned long *) 0xE000E204) )
-#define PEND2																	( *((volatile unsigned long *) 0xE000E208) )
-#define PEND3																	( *((volatile unsigned long *) 0xE000E20C) )
-#define PEND4																	( *((volatile unsigned long *) 0xE000E210) )
+#define PEND0									( *((volatile unsigned long *) 0xE000E200) )
+#define PEND1									( *((volatile unsigned long *) 0xE000E204) )
+#define PEND2									( *((volatile unsigned long *) 0xE000E208) )
+#define PEND3									( *((volatile unsigned long *) 0xE000E20C) )
+#define PEND4									( *((volatile unsigned long *) 0xE000E210) )
 	
 /* Clear pending registers */
-#define UNPEND0																( *((volatile unsigned long *) 0xE000E280) )
-#define UNPEND1																( *((volatile unsigned long *) 0xE000E284) )
-#define UNPEND2																( *((volatile unsigned long *) 0xE000E288) )
-#define UNPEND3																( *((volatile unsigned long *) 0xE000E28C) )
-#define UNPEND4																( *((volatile unsigned long *) 0xE000E290) )
+#define UNPEND0									( *((volatile unsigned long *) 0xE000E280) )
+#define UNPEND1									( *((volatile unsigned long *) 0xE000E284) )
+#define UNPEND2									( *((volatile unsigned long *) 0xE000E288) )
+#define UNPEND3									( *((volatile unsigned long *) 0xE000E28C) )
+#define UNPEND4									( *((volatile unsigned long *) 0xE000E290) )
 	
 /* IRQn range */
-#define REG0_START														0
-#define REG0_END															31
-#define REG1_START														32
-#define REG1_END															63
-#define REG2_START														64
-#define REG2_END															95
-#define REG3_START														96
-#define REG3_END															127
-#define REG4_START														128
-#define REG4_END															131
+#define REG0_START								0
+#define REG0_END								31
+#define REG1_START								32
+#define REG1_END								63
+#define REG2_START								64
+#define REG2_END								95
+#define REG3_START								96
+#define REG3_END								127
+#define REG4_START							    128
+#define REG4_END								131
 
 /****************************************************************************
  *                                                                          *
@@ -54,27 +54,27 @@
  *                                                                          *
  ****************************************************************************/ 
 /* GPIO mode setting values */
-#define GPIO_PIN_ANALOG                     		( (uint32_t)0x00 )
-#define GPIO_PIN_DIGITAL                    		( (uint32_t)0x01 )
+#define GPIO_PIN_ANALOG                     	( (uint32_t)0x00 )
+#define GPIO_PIN_DIGITAL                    	( (uint32_t)0x01 )
 
 /* GPIO alt func setting values */
 #define GPIO_PIN_DISABLE_AF                   	( (uint32_t)0x01 )
 // To be implemented: 16 alt func's
 
 /* GPIO direction setting values */
-#define GPIO_PIN_INPUT                     			( (uint32_t)0x00 )
-#define GPIO_PIN_OUTPUT                    			( (uint32_t)0x01 )
+#define GPIO_PIN_INPUT                     	    ( (uint32_t)0x00 )
+#define GPIO_PIN_OUTPUT                    	    ( (uint32_t)0x01 )
 
 /* GPIO pull up/down type selection values */
-#define GPIO_PIN_NO_PUPD												( (uint32_t)0x00 )
+#define GPIO_PIN_NO_PUPD						( (uint32_t)0x00 )
 #define GPIO_PIN_PULL_UP                        ( (uint32_t)0x01 )
 #define GPIO_PIN_PULL_DOWN                      ( (uint32_t)0x02 )
-#define GPIO_PIN_OPEN_DRAIN             				( (uint32_t)0x03 )
+#define GPIO_PIN_OPEN_DRAIN             		( (uint32_t)0x03 )
 
 /* GPIO interrupt sense type selection values */
-#define GPIO_INT_RISING_EDGE										( (uint32_t)0x00 )
-#define GPIO_INT_FALLING_EDGE										( (uint32_t)0x01 )
-#define GPIO_INT_BOTH_EDGES											( (uint32_t)0x02 )
+#define GPIO_INT_RISING_EDGE				    ( (uint32_t)0x00 )
+#define GPIO_INT_FALLING_EDGE				    ( (uint32_t)0x01 )
+#define GPIO_INT_BOTH_EDGES					    ( (uint32_t)0x02 )
 #define GPIO_INT_LEVEL	                        ( (uint32_t)0x03 )
 
 /****************************************************************************
