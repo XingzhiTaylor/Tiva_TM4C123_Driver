@@ -5,6 +5,51 @@
 
 /****************************************************************************
  *                                                                          *
+ *                  Macros used for interrupt setup		                      *
+ *                                                                          *
+ ****************************************************************************/ 
+/* Set enable registers */
+#define EN0																		( *((volatile unsigned long *) 0xE000E100) )
+#define EN1																		( *((volatile unsigned long *) 0xE000E104) )
+#define EN2																		( *((volatile unsigned long *) 0xE000E108) )
+#define EN3																		( *((volatile unsigned long *) 0xE000E10C) )
+#define EN4																		( *((volatile unsigned long *) 0xE000E110) )
+
+/* Clear enable registers */
+#define DIS0																	( *((volatile unsigned long *) 0xE000E180) )
+#define DIS1																	( *((volatile unsigned long *) 0xE000E184) )
+#define DIS2																	( *((volatile unsigned long *) 0xE000E188) )
+#define DIS3																	( *((volatile unsigned long *) 0xE000E18C) )
+#define DIS4																	( *((volatile unsigned long *) 0xE000E190) )
+	
+/* Set pending registers */
+#define PEND0																	( *((volatile unsigned long *) 0xE000E200) )
+#define PEND1																	( *((volatile unsigned long *) 0xE000E204) )
+#define PEND2																	( *((volatile unsigned long *) 0xE000E208) )
+#define PEND3																	( *((volatile unsigned long *) 0xE000E20C) )
+#define PEND4																	( *((volatile unsigned long *) 0xE000E210) )
+	
+/* Clear pending registers */
+#define UNPEND0																( *((volatile unsigned long *) 0xE000E280) )
+#define UNPEND1																( *((volatile unsigned long *) 0xE000E284) )
+#define UNPEND2																( *((volatile unsigned long *) 0xE000E288) )
+#define UNPEND3																( *((volatile unsigned long *) 0xE000E28C) )
+#define UNPEND4																( *((volatile unsigned long *) 0xE000E290) )
+	
+/* IRQn range */
+#define REG0_START														0
+#define REG0_END															31
+#define REG1_START														32
+#define REG1_END															63
+#define REG2_START														64
+#define REG2_END															95
+#define REG3_START														96
+#define REG3_END															127
+#define REG4_START														128
+#define REG4_END															131
+
+/****************************************************************************
+ *                                                                          *
  *                  Macros used for pin initialization                      *
  *                                                                          *
  ****************************************************************************/ 
@@ -26,19 +71,18 @@
 #define GPIO_PIN_PULL_DOWN                      ( (uint32_t)0x02 )
 #define GPIO_PIN_OPEN_DRAIN             				( (uint32_t)0x03 )
 
-/* GPIO port address */
-#define GPIO_PORT_A     GPIOA
-#define GPIO_PORT_B     GPIOB
-#define GPIO_PORT_C     GPIOC
-#define GPIO_PORT_D     GPIOD
-#define GPIO_PORT_E     GPIOE
-#define GPIO_PORT_F     GPIOF
-#define GPIO_PORT_G     GPIOG
-#define GPIO_PORT_H     GPIOH
-#define GPIO_PORT_I     GPIOI
+/* GPIO interrupt sense type selection values */
+#define GPIO_INT_RISING_EDGE										( (uint32_t)0x00 )
+#define GPIO_INT_FALLING_EDGE										( (uint32_t)0x01 )
+#define GPIO_INT_BOTH_EDGES											( (uint32_t)0x02 )
+#define GPIO_INT_LEVEL	                        ( (uint32_t)0x03 )
 
+/****************************************************************************
+ *                                                                          *
+ *                  Macros used for clock initialization                    *
+ *                                                                          *
+ ****************************************************************************/ 
 /* Enable the clock for different ports using RCC registers */
-// Check the user manual and implement them!
 #define RCC_GPIOA_CLK_ENABLE()      volatile unsigned long delay;\
                                     SYSCTL->RCGC2 |= (0x01 << 0);\
                                     delay = SYSCTL->RCGC2;
@@ -149,5 +193,49 @@ void gpio_write_to_pin(GPIOA_Type *GPIOx, uint16_t pin_no, uint8_t val);
  *return: none
 */
 void gpio_init(GPIOA_Type *GPIOx, gpio_pin_conf_t *gpio_pin_conf);
+
+/*
+ *brief  Configure the interrupt for a given pin number   
+ *param  pin_no : GPIO pin number 
+ *param  edge_sel   :  Triggering edge slection value of type "int_edge_sel_t"
+ *return None
+*/
+void gpio_configure_interrupt(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t int_conf);
+
+/*
+ *brief  Enable the interrupt for a give pin number and irq number  
+ *param  pin_no : GPIO pin number 
+ *param  irq_no   :  irq_number to be enabled in NVIC 
+ *return None
+*/
+void gpio_enable_interrupt(GPIOA_Type *GPIOx, uint16_t pin_no);
+
+/*
+ *brief  Clear the sticky interrupt pending bit if set 
+ *param  pin_no : GPIO pin number 
+ *return None
+*/
+void gpio_clear_interrupt(GPIOA_Type *GPIOx, uint16_t pin_no);
+
+/*
+ *brief  Enable the interrupt for a give irq number in NVIC
+ *param  irq_no   :  irq_number to be enabled in NVIC 
+ *return None
+*/
+void NVIC_enable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no);
+
+/*
+ *brief  Disable the interrupt for a give pin number and irq number  
+ *param  irq_no   :  irq_number to be disabled in NVIC 
+ *return None
+*/
+void NVIC_disable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no);
+
+/*
+ *brief  Clear the sticky interrupt pending bit if set 
+ *param  irq_no   :  irq_number to be cleared in NVIC 
+ *return None
+*/
+void NVIC_clear_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no);
 
 #endif

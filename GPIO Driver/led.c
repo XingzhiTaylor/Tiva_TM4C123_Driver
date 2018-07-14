@@ -1,6 +1,8 @@
 #include "led.h"
 #include "gpio_driver.h"
 
+#define SW_PIN  GPIO_SW2_PIN
+
 void led_init(void){
     // Declare a pin config object, and set it to the target pin
 	gpio_pin_conf_t led_conf_t;
@@ -36,6 +38,16 @@ void led_toggle(GPIOA_Type *GPIOx, uint16_t pin){
 	gpio_write_to_pin(GPIO_LED_PORT, pin, ((gpio_read_from_pin(GPIO_LED_PORT, pin)) ^ 0x01));
 }
 
+void sw_init(void){
+	gpio_pin_conf_t sw_conf;
+	sw_conf.pin = SW_PIN;
+	sw_conf.alternate = GPIO_PIN_DISABLE_AF;
+	sw_conf.io_type = GPIO_PIN_INPUT;
+	sw_conf.mode = GPIO_PIN_DIGITAL;
+	sw_conf.pupd = GPIO_PIN_PULL_UP;
+	
+	gpio_init(GPIO_SW_PORT, &sw_conf);
+}
 void delay(unsigned long halfsecs){
   unsigned long count;
   
@@ -49,9 +61,17 @@ void delay(unsigned long halfsecs){
 }
 
 int main(void) {
-    // Test code
+    // Initialize LED
     led_init();
+	// Initialize SW
+	sw_init();
+	// Enable and Initialize interrupt
+	NVIC_enable_interrupt(GPIO_SW_PORT, GPIOF_IRQn);
+	gpio_enable_interrupt(GPIO_SW_PORT, SW_PIN);
+	gpio_configure_interrupt(GPIO_SW_PORT, GPIO_SW1_PIN, GPIO_INT_FALLING_EDGE);
     while(1){
+			led_on(GPIO_LED_PORT, LED_GREEN);
+			/*
 			led_on(GPIO_LED_PORT, LED_RED);
 			delay(1);
 			led_on(GPIO_LED_PORT, LED_GREEN);
@@ -64,5 +84,18 @@ int main(void) {
 			delay(1);
 			led_off(GPIO_LED_PORT, LED_BLUE);
 			delay(1);
+			*/
     }
+}
+
+void GPIOF_Handler(void){
+	gpio_clear_interrupt(GPIO_SW_PORT, SW_PIN);
+	NVIC_clear_interrupt(GPIO_SW_PORT, GPIOF_IRQn);
+	// Do something
+	for(int i = 0; i < 4; i++){
+		led_on(GPIO_LED_PORT, LED_RED);
+		delay(1);
+		led_off(GPIO_LED_PORT, LED_RED);
+		delay(1);
+	}
 }
