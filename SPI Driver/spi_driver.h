@@ -61,17 +61,97 @@
                                     SYSCTL->RCGCSSI |= (0x01 << 3);\
                                     delay = SYSCTL->RCGCSSI;
 
-/*************************SPI Data Structures*****************************/
+/****************************************************************************
+ *                                                                          *
+ *                  			SPI Init Data Structure			                    	*
+ *                                                                          *
+ ****************************************************************************/
 typedef struct {
-	uint32_t Clock_phase;
-	uint32_t Clock_polarity;
-	uint32_t Frame_format;
-	uint32_t Mode;							// Slave or master
-	uint32_t EOT_enable;
-	uint32_t Loopback;
-	uint32_t Clock;
-	uint32_t Clock_prescale;		// CPSR Register
-	uint32_t Clock_scaler;      // SCR value in CR0 register
+	uint32_t 		Clock_phase;
+	uint32_t 		Clock_polarity;
+	uint32_t 		Frame_format;
+	uint32_t 		Mode;							// Slave or master
+	uint32_t 		EOT_enable;
+	uint32_t 		Loopback;
+	uint32_t 		Clock;
+	uint32_t 		Clock_prescale;		// CPSR Register
+	uint32_t 		Clock_scaler;     // SCR value in CR0 register
 } spi_conf_t;
+
+typedef struct
+{
+  SSI0_Type   *Instance;       /* SPI registers base address */
+  spi_conf_t  Init;          	 /* SPI communication parameters */
+  uint8_t     *pTxBuffPtr;     /* Pointer to SPI Tx transfer Buffer */
+  uint16_t    TxXferSize;      /* SPI Tx transfer size */ 
+  uint16_t    TxXferCount;     /* SPI Tx Transfer Counter */
+  uint8_t     *pRxBuffPtr;     /* Pointer to SPI Rx transfer Buffer */
+  uint16_t    RxXferSize;      /* SPI Rx transfer size */
+  uint16_t    RxXferCount;     /* SPI Rx Transfer Counter */
+  uint32_t  	State;           /* SPI communication state */
+} spi_handle_t;
+
+/****************************************************************************
+ *                                                                          *
+ *                  				Driver Exposed APIs				                    	*
+ *                                                                          *
+ ****************************************************************************/
+
+/**
+	* @brief  API used to do initialize the given SPI device
+	* @param  *spi_conf : SPI config data structure 
+  * @retval none
+	*/
+
+void hal_spi_init(spi_conf_t *spi_conf);
+
+/**
+	* @brief  API used to do master data transmission 
+	* @param  *SPIx : Base address of the SPI  
+  * @param  *buffer : pointer to the tx buffer 
+  * @param  len : len of tx data
+  * @retval none
+	*/
+void hal_spi_master_tx(spi_handle_t *spi_handle,uint8_t *buffer, uint32_t len);
+
+/**
+	* @brief  API used to do slave data transmission 
+	* @param  *SPIx : Base address of the SPI  
+  * @param  *buffer : pointer to the tx buffer 
+  * @param  len : len of tx data
+  * @retval none
+	*/
+void hal_spi_slave_tx(spi_handle_t *spi_handle, uint8_t *rcv_buffer, uint32_t len);
+
+
+/**
+	* @brief  API used to do master data reception 
+	* @param  *SPIx : Base address of the SPI  
+  * @param  *buffer : pointer to the rx buffer 
+  * @param  len : len of rx data
+  * @retval none
+	*/
+void hal_spi_master_rx(spi_handle_t *spi_handle,uint8_t *buffer, uint32_t len);
+
+
+/**
+	* @brief  API used to do slave data reception 
+	* @param  *SPIx : Base address of the SPI  
+  * @param  *buffer : pointer to the rx buffer 
+  * @param  len : len of rx data
+  * @retval none
+	*/
+void hal_spi_slave_rx(spi_handle_t *spi_handle, uint8_t *rcv_buffer, uint32_t len);
+
+
+/**
+  * @brief  This function handles SPI interrupt request.
+  * @param  spi_handle: pointer to a spi_handle_t structure that contains
+  *                the configuration information for SPI module.
+  * @retval none
+  */
+void hal_spi_irq_handler(spi_handle_t *spi_handle);
+
+
 
 #endif
