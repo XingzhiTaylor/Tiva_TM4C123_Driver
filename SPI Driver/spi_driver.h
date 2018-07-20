@@ -43,7 +43,7 @@
 #define SPI_FIFO_NOT_FULL										( (uint32_t) 1 << 1 )	
 #define SPI_FIFO_EMPTY											( (uint32_t) 1 << 0 )	
 
-/*********************Bit Definitions for ICC Register*********************/
+/*********************Bit Definitions for CC Register*********************/
 #define SPI_SYS_CLK													 									0x0
 #define SPI_PIOSC														 									0x5
 
@@ -67,15 +67,17 @@
  *                                                                          *
  ****************************************************************************/
 typedef struct {
+	uint32_t		SCR;
 	uint32_t 		Clock_phase;
 	uint32_t 		Clock_polarity;
 	uint32_t 		Frame_format;
+	uint32_t 		Data_size;
 	uint32_t 		Mode;							// Slave or master
+	uint32_t		Slave_out_enable;
 	uint32_t 		EOT_enable;
 	uint32_t 		Loopback;
 	uint32_t 		Clock;
 	uint32_t 		Clock_prescale;		// CPSR Register
-	uint32_t 		Clock_scaler;     // SCR value in CR0 register
 } spi_conf_t;
 
 typedef struct
@@ -101,9 +103,8 @@ typedef struct
 	* @brief  API used to do initialize the given SPI device
 	* @param  *spi_conf : SPI config data structure 
   * @retval none
-	*/
-
-void hal_spi_init(spi_conf_t *spi_conf);
+*/
+void spi_init(spi_handle_t *spi_handle);
 
 /**
 	* @brief  API used to do master data transmission 
@@ -112,7 +113,7 @@ void hal_spi_init(spi_conf_t *spi_conf);
   * @param  len : len of tx data
   * @retval none
 	*/
-void hal_spi_master_tx(spi_handle_t *spi_handle,uint8_t *buffer, uint32_t len);
+void spi_master_tx(spi_handle_t *spi_handle,uint8_t *buffer, uint32_t len);
 
 /**
 	* @brief  API used to do slave data transmission 
@@ -121,7 +122,7 @@ void hal_spi_master_tx(spi_handle_t *spi_handle,uint8_t *buffer, uint32_t len);
   * @param  len : len of tx data
   * @retval none
 	*/
-void hal_spi_slave_tx(spi_handle_t *spi_handle, uint8_t *rcv_buffer, uint32_t len);
+void spi_slave_tx(spi_handle_t *spi_handle, uint8_t *rcv_buffer, uint32_t len);
 
 
 /**
@@ -131,7 +132,7 @@ void hal_spi_slave_tx(spi_handle_t *spi_handle, uint8_t *rcv_buffer, uint32_t le
   * @param  len : len of rx data
   * @retval none
 	*/
-void hal_spi_master_rx(spi_handle_t *spi_handle,uint8_t *buffer, uint32_t len);
+void spi_master_rx(spi_handle_t *spi_handle,uint8_t *buffer, uint32_t len);
 
 
 /**
@@ -141,7 +142,7 @@ void hal_spi_master_rx(spi_handle_t *spi_handle,uint8_t *buffer, uint32_t len);
   * @param  len : len of rx data
   * @retval none
 	*/
-void hal_spi_slave_rx(spi_handle_t *spi_handle, uint8_t *rcv_buffer, uint32_t len);
+void spi_slave_rx(spi_handle_t *spi_handle, uint8_t *rcv_buffer, uint32_t len);
 
 
 /**
@@ -150,7 +151,7 @@ void hal_spi_slave_rx(spi_handle_t *spi_handle, uint8_t *rcv_buffer, uint32_t le
   *                the configuration information for SPI module.
   * @retval none
   */
-void hal_spi_irq_handler(spi_handle_t *spi_handle);
+void spi_irq_handler(spi_handle_t *spi_handle);
 
 
 
