@@ -1,2 +1,1 @@
-GPIO Driver/Objects/* linguist-vendored
-SPI Driver/Objects/* linguist-vendored
+*.rb linguist-language=C
