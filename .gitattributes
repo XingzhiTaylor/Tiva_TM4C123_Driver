@@ -1,2 +1,2 @@
-GPIO Driver/Objects/* linguist-vendored
-SPI Driver/Objects/* linguist-vendored
+GPIO/Objects/* linguist-vendored
+SPI/Objects/* linguist-vendored
