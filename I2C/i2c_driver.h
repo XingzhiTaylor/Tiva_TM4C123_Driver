@@ -36,8 +36,8 @@
 
 /********************Master Configuration (MCR) Register*********************/
 #define I2C_LOOPBACK								( (uint32_t) 1 << 0 )				// Loopback mode enable
-#define I2C_MASTER_EN								( (uint32_t) 1 << 4 )				// Master mode enable
-#define I2C_SLAVE_EN								( (uint32_t) 1 << 5 )				// Slave mode enable
+#define I2C_MASTER									( (uint32_t) 1 << 4 )				// Master mode enable
+#define I2C_SLAVE										( (uint32_t) 1 << 5 )				// Slave mode enable
 #define I2C_GLF_EN									( (uint32_t) 1 << 6 )				// Glitch filter enable
 
 /********************Master Bus Monitor (MBMON) Register*********************/
@@ -68,15 +68,22 @@
 #define I2C_INT_START								( (uint32_t) 1 << 1 )				// Start condition interrupt
 #define I2C_INT_STOP								( (uint32_t) 1 << 2 )				// Stop condition interrupt
 
+/*****************************Slave Dual Address******************************/
+#define I2C_OAR2_EN									( (uint32_t) 1 << 7 )				// Dual address enable
+#define I2C_OAR2_DN									~( (uint32_t) 1 << 7 )			// Dual address disable
+
 /*****************************Slave ACK Control******************************/
 #define I2C_ACK_OEN									( (uint32_t) 1 << 0 )				// ACK Override enable
 #define I2C_ACK_OVAL								( (uint32_t) 1 << 1 )				// ACK Override value
 
-#define I2C_PROP_UNSET							0
+#define I2C_PC_HS										( (uint32_t) 1 << 0 ) 			// Peripheral Configuration high speed
+
+#define I2C_INIT_UNSET							0
+#define I2C_HNDL_UNSET							0
 
 /****************************************************************************
  *                                                                          *
- *                  SPI Register Data Structures			                    	*
+ *                  I2C Register Data Structures			                    	*
  *                                                                          *
  ****************************************************************************/
  
@@ -96,6 +103,7 @@ typedef struct
 {
 	I2C0_Type		               *Instance;  /*!< I2C registers base address     */
 	i2c_init_t                 Init;       /*!< I2C communication parameters   */
+	uint32_t									 Slave_addr; /*!< Slave address to transmit data   */
 	uint8_t                    *pBuffPtr;  /*!< Pointer to I2C transfer buffer */
 	uint32_t                   XferSize;   /*!< I2C transfer size              */
 	__IO uint32_t              XferCount;  /*!< I2C transfer counter           */
@@ -116,5 +124,57 @@ typedef struct
                                     SYSCTL->RCGCI2C |= (0x01 << 3);\
                                     delay3 = SYSCTL->RCGCI2C;
 
+/**
+	* @brief  API used to do init the i2c module
+	* @param  *i2cx : I2C module to initialize
+  * @retval none
+*/
+void i2c_init(i2c_handle_t *i2cx);
+
+/**
+	* @brief  API used to do master data transmission 
+	* @param  *I2Cx : Base address of the I2C  
+  * @param  *buffer : pointer to the tx buffer 
+  * @param  len : len of tx data
+  * @retval none
+	*/
+void i2c_master_tx(i2c_handle_t *i2cx, uint8_t *tsm_buffer, uint32_t len);
+
+/**
+	* @brief  API used to do slave data transmission 
+	* @param  *I2Cx : Base address of the I2C  
+  * @param  *buffer : pointer to the tx buffer 
+  * @param  len : len of tx data
+  * @retval none
+	*/
+void i2c_slave_tx(i2c_handle_t *i2cx, uint8_t *tsm_buffer, uint32_t len);
+
+
+/**
+	* @brief  API used to do master data reception 
+	* @param  *I2Cx : Base address of the I2C  
+  * @param  *buffer : pointer to the rx buffer 
+  * @param  len : len of rx data
+  * @retval none
+	*/
+void i2c_master_rx(i2c_handle_t *i2cx, uint8_t *rcv_buffer, uint32_t len);
+
+
+/**
+	* @brief  API used to do slave data reception 
+	* @param  *I2Cx : Base address of the I2C  
+  * @param  *buffer : pointer to the rx buffer 
+  * @param  len : len of rx data
+  * @retval none
+	*/
+void i2c_slave_rx(i2c_handle_t *i2cx, uint8_t *rcv_buffer, uint32_t len);
+
+/**
+  * @brief  This function handles SPI interrupt request.
+  * @param  spi_handle: pointer to a spi_handle_t structure that contains
+  *                the configuration information for SPI module.
+  * @retval none
+  */
+void i2c_irq_handler(i2c_handle_t *i2cx);
 
 #endif
