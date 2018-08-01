@@ -138,7 +138,16 @@ void i2c_init(i2c_handle_t *i2cx);
   * @param  len : len of tx data
   * @retval none
 	*/
-void i2c_master_tx(i2c_handle_t *i2cx, uint8_t *tsm_buffer, uint32_t len);
+void i2c_master_tx(i2c_handle_t *i2cx);
+
+/**
+	* @brief  API used to do master data transmission in high speed mode
+	* @param  *I2Cx : Base address of the I2C  
+  * @param  *buffer : pointer to the tx buffer 
+  * @param  len : len of tx data
+  * @retval none
+	*/
+void i2c_master_hs_tx(i2c_handle_t *i2cx);
 
 /**
 	* @brief  API used to do slave data transmission 
@@ -147,7 +156,7 @@ void i2c_master_tx(i2c_handle_t *i2cx, uint8_t *tsm_buffer, uint32_t len);
   * @param  len : len of tx data
   * @retval none
 	*/
-void i2c_slave_tx(i2c_handle_t *i2cx, uint8_t *tsm_buffer, uint32_t len);
+void i2c_slave_tx(i2c_handle_t *i2cx);
 
 
 /**
@@ -157,7 +166,7 @@ void i2c_slave_tx(i2c_handle_t *i2cx, uint8_t *tsm_buffer, uint32_t len);
   * @param  len : len of rx data
   * @retval none
 	*/
-void i2c_master_rx(i2c_handle_t *i2cx, uint8_t *rcv_buffer, uint32_t len);
+void i2c_master_rx(i2c_handle_t *i2cx);
 
 
 /**
@@ -167,7 +176,7 @@ void i2c_master_rx(i2c_handle_t *i2cx, uint8_t *rcv_buffer, uint32_t len);
   * @param  len : len of rx data
   * @retval none
 	*/
-void i2c_slave_rx(i2c_handle_t *i2cx, uint8_t *rcv_buffer, uint32_t len);
+void i2c_slave_rx(i2c_handle_t *i2cx);
 
 /**
   * @brief  This function handles SPI interrupt request.
