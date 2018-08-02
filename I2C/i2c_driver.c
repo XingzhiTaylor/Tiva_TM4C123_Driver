@@ -7,7 +7,9 @@
   *                the configuration information for I2C module.
   * @retval none
   */
-void i2c_exception_handler(i2c_handle_t *i2cx);
+void i2c_exception_handler(i2c_handle_t *i2cx){
+	// Exception handler to be implemented
+}
 
 /**
   * @brief  This function checks I2C master errors.
@@ -17,7 +19,7 @@ void i2c_exception_handler(i2c_handle_t *i2cx);
   */
 void i2c_check_master_error(i2c_handle_t *i2cx){
 	if(i2cx->Instance->MCS & I2C_ERROR){
-		i2cx->ErrorCode = I2C_ERROR;  // Error code be modified
+		i2cx->ErrorCode = I2C_ERROR;  // Error code to be modified
 		i2c_exception_handler(i2cx);
 	}
 }
@@ -54,6 +56,10 @@ void i2c_init(i2c_handle_t *i2cx){
 		i2cx->Instance->MCR |= I2C_MASTER;
 		// Set clock period
 		i2cx->Instance->MTPR |= i2cx->Init.Clock_period;
+		// Set loopback mode
+		if(i2cx->Init.Loopback == I2C_LOOPBACK){
+			i2cx->Instance->MCR |= I2C_LOOPBACK;
+		}
 	} else if(i2cx->Init.Master == I2C_SLAVE){
 		// The I2C module is configured as slave
 		// Choose slave

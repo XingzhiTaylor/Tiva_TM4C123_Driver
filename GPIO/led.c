@@ -67,7 +67,7 @@ int main(void) {
 	// Initialize SW
 	sw_init();
 	// Enable and Initialize interrupt
-	NVIC_enable_interrupt(GPIO_SW_PORT, GPIOF_IRQn);
+	NVIC_enable_interrupt(GPIOF_IRQn);
 	gpio_enable_interrupt(GPIO_SW_PORT, SW_PIN);
 	gpio_configure_interrupt(GPIO_SW_PORT, GPIO_SW1_PIN, GPIO_INT_FALLING_EDGE);
     while(1){
@@ -104,7 +104,7 @@ int main(void) {
 void GPIOF_Handler(void){
 	// Clear the interrupt bits, otherwise interrupt will keep being sent to the processor
 	gpio_clear_interrupt(GPIO_SW_PORT, SW_PIN);
-	NVIC_clear_interrupt(GPIO_SW_PORT, GPIOF_IRQn);
+	NVIC_clear_interrupt(GPIOF_IRQn);
 	// Flash the red LED
 	for(int i = 0; i < 4; i++){
 		led_on(GPIO_LED_PORT, LED_RED);

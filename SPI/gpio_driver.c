@@ -181,11 +181,10 @@ void gpio_clear_interrupt(GPIOA_Type *GPIOx, uint16_t pin_no){
 }
 
 /*
- *brief  Enable the interrupt for a give irq number in NVIC
  *param  irq_no   :  irq_number to be enabled in NVIC 
  *return None
 */
-void NVIC_enable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
+void NVIC_enable_interrupt(uint16_t irq_no){
 	uint32_t irq_pos = (irq_no % 32);
 	// Enable the corresponding interrupt in NVIC
 	if(irq_no <= REG0_END){
@@ -202,11 +201,10 @@ void NVIC_enable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
 }
 
 /*
- *brief  Disable the interrupt for a give pin number and irq number  
  *param  irq_no   :  irq_number to be disabled in NVIC 
  *return None
 */
-void NVIC_disable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
+void NVIC_disable_interrupt(uint16_t irq_no){
 	uint32_t irq_pos = (irq_no % 32);
 	// Enable the corresponding interrupt in NVIC
 	if(irq_no <= REG0_END){
@@ -223,11 +221,10 @@ void NVIC_disable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
 }
 
 /*
- *brief  Clear the sticky interrupt pending bit if set 
  *param  irq_no   :  irq_number to be cleared in NVIC 
  *return None
 */
-void NVIC_clear_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
+void NVIC_clear_interrupt(uint16_t irq_no){
 	uint32_t irq_pos = (irq_no % 32);
 	if(irq_no <= REG0_END){
 		if((PEND0 & (0x01 << irq_pos)) >> irq_pos){

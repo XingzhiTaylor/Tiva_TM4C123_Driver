@@ -180,7 +180,7 @@ int main(void){
 	// Set up SPI functionalities
 	spi_func_init();
 	
-	NVIC_enable_interrupt(SSI0_PORT, SSI0_IRQ_NBR);
+	NVIC_enable_interrupt(SSI0_IRQ_NBR);
 	
 	while(1){
 		// Receive signal from master
@@ -205,5 +205,5 @@ void SSI0_Handler(){
 	// Call the SSI int handler
 	spi_irq_handler(&spi_handle);
 	// Clear the interrupt
-	NVIC_clear_interrupt(SSI0_PORT, SSI0_IRQ_NBR);
+	NVIC_clear_interrupt(SSI0_IRQ_NBR);
 }

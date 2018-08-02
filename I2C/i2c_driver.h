@@ -179,6 +179,14 @@ void i2c_master_rx(i2c_handle_t *i2cx);
 void i2c_slave_rx(i2c_handle_t *i2cx);
 
 /**
+  * @brief  This function unmasks I2C slave interrupt request.
+  * @param  i2c_handle: pointer to a i2c_handle_t structure that contains
+  *                the configuration information for I2C module.
+  * @retval none
+  */
+void i2c_slave_int_enable(i2c_handle_t *i2cx);
+
+/**
   * @brief  This function handles SPI interrupt request.
   * @param  spi_handle: pointer to a spi_handle_t structure that contains
   *                the configuration information for SPI module.

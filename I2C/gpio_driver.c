@@ -175,7 +175,7 @@ void gpio_clear_interrupt(GPIOA_Type *GPIOx, uint16_t pin_no){
  *param  irq_no   :  irq_number to be enabled in NVIC 
  *return None
 */
-void NVIC_enable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
+void NVIC_enable_interrupt(uint16_t irq_no){
 	uint32_t irq_pos = (irq_no % 32);
 	// Enable the corresponding interrupt in NVIC
 	if(irq_no <= REG0_END){
@@ -196,7 +196,7 @@ void NVIC_enable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
  *param  irq_no   :  irq_number to be disabled in NVIC 
  *return None
 */
-void NVIC_disable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
+void NVIC_disable_interrupt(uint16_t irq_no){
 	uint32_t irq_pos = (irq_no % 32);
 	// Enable the corresponding interrupt in NVIC
 	if(irq_no <= REG0_END){
@@ -217,7 +217,7 @@ void NVIC_disable_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
  *param  irq_no   :  irq_number to be cleared in NVIC 
  *return None
 */
-void NVIC_clear_interrupt(GPIOA_Type *GPIOx, uint16_t irq_no){
+void NVIC_clear_interrupt(uint16_t irq_no){
 	uint32_t irq_pos = (irq_no % 32);
 	if(irq_no <= REG0_END){
 		if((PEND0 & (0x01 << irq_pos)) >> irq_pos){

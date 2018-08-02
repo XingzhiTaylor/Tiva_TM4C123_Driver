@@ -5,7 +5,7 @@
 #include "TM4C123GH6PM.h"
 
 #define GPIO_LED_PORT					GPIOF
-#define GPIO_SW_PORT					GPIO
+#define GPIO_SW_PORT					GPIOF
 
 #define GPIOF_PIN_0 					0
 #define GPIOF_PIN_1 					1
