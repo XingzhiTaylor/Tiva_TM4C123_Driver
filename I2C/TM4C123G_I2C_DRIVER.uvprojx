@@ -10,6 +10,7 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -391,14 +392,29 @@
               <FilePath>.\gpio_driver.h</FilePath>
             </File>
             <File>
+              <FileName>i2c_driver.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\i2c_driver.h</FilePath>
+            </File>
+            <File>
               <FileName>i2c_driver.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\i2c_driver.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>User App</GroupName>
+          <Files>
             <File>
-              <FileName>i2c_driver.h</FileName>
+              <FileName>i2c_app.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\i2c_driver.h</FilePath>
+              <FilePath>.\i2c_app.h</FilePath>
+            </File>
+            <File>
+              <FileName>i2c_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\i2c_app.c</FilePath>
             </File>
           </Files>
         </Group>
