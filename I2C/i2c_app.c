@@ -31,10 +31,10 @@ int main(void){
 	i2cx.Init = i2cx_init;
 	i2c_init(&i2cx);
 	
-	//i2cx.Init.Master = I2C_SLAVE;
-	//i2cx.Init.Slave_own_address = SLAVE_OWN_ADDRESS;
-	//i2cx.Init.Dual_address_en = 0;
-	//i2c_init(&i2cx);
+	i2cx.Init.Master = I2C_SLAVE;
+	i2cx.Init.Slave_own_address = SLAVE_OWN_ADDRESS;
+	i2cx.Init.Dual_address_en = 0;
+	i2c_init(&i2cx);
 	
 	NVIC_enable_interrupt(I2C0_IRQ_NUM);
 	i2c_slave_int_enable(&i2cx);
