@@ -2,6 +2,7 @@
 #define UART_DRIVER_H
 
 #include "TM4C123GH6PM.h"
+#include <stdbool.h>
 
 /****************************************************************************
  *                                                                          *
@@ -96,8 +97,393 @@
  *                                                                          *
  ****************************************************************************/ 
 
+/*
+ * @brief: Write a byte of data to the data register
+ * @param: *UARTx: Base address of the UART module
+ * @param: data: The byte of data to send
+ * @return: None
+ */
+void UARTWriteByte(UART0_Type *UARTx, uint8_t data);
+
+/*
+ * @brief: Read a byte of data from the data register
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+uint8_t UARTReadByte(UART0_Type *UARTx);
+
+/*
+ * @brief: Check for receive error
+ * @param: *UARTx: Base address of the UART module
+ * @param: error: The receive error to check
+ * @return: Whether the specified error has occured
+ */
+bool UARTReceiveErrorCheck(UART0_Type *UARTx, uint32_t error);
+
+/*
+ * @brief: Check if the receive error has been cleared
+ * @param: *UARTx: Base address of the UART module
+ * @param: error: The receive error to check
+ * @return: Whether the specified error has been cleared
+ */
+bool UARTReceiveErrorCleared(UART0_Type *UARTx, uint32_t error);
+
+/*
+ * @brief: Clear all receive errors
+ * @param: *UARTx: Base address of the UART module
+ * @param: error: The receive error to clear
+ * @return: None
+ */
+void UARTClearReceiveError(UART0_Type *UARTx, uint32_t error);
+
+/*
+ * @brief: Check the UART flags
+ * @param: *UARTx: Base address of the UART module
+ * @param: flag: The flag to check
+ * @return: Whether the specified flag is set
+ */
+bool UARTFlagCheck(UART0_Type *UARTx, uint32_t flag);
+
+/*
+ * @brief: Set the IrDA low power dividor
+ * @param: *UARTx: Base address of the UART module
+ * @param: divisor: The divisor to set
+ * @return: None
+ */
+void UARTIrDALPDivSet(UART0_Type *UARTx, uint8_t divisor);
+
+/*
+ * @brief: Get the IrDA low power dividor
+ * @param: *UARTx: Base address of the UART module
+ * @return: The IrDA low power dividor
+ */
+uint8_t UARTIrDALPDivGet(UART0_Type *UARTx);
+
+/*
+ * @brief: Set the integer baud rate dividor
+ * @param: *UARTx: Base address of the UART module
+ * @param: divisor: The divisor to set
+ * @return: None
+ */
+void UARTBaudIntDivSet(UART0_Type *UARTx, uint16_t divisor);
+
+/*
+ * @brief: Get the integer baud rate dividor
+ * @param: *UARTx: Base address of the UART module
+ * @return: The integer baud rate dividor
+ */
+uint16_t UARTBaudIntDivGet(UART0_Type *UARTx);
+
+/*
+ * @brief: Set the fractional baud rate dividor
+ * @param: *UARTx: Base address of the UART module
+ * @param: divisor: The divisor to set
+ * @return: None
+ */
+void UARTBaudFracDivSet(UART0_Type *UARTx, uint8_t divisor);
+
+/*
+ * @brief: Get the fractional baud rate dividor
+ * @param: *UARTx: Base address of the UART module
+ * @return: The fractional baud rate dividor
+ */
+uint8_t UARTBaudFracDivGet(UART0_Type *UARTx);
+
+/*
+ * @brief: Set the line control parameters
+ * @param: *UARTx: Base address of the UART module
+ * @param: lineControl: The line control param to set
+ * @return: None
+ */
+void UARTLineControlSet(UART0_Type *UARTx, uint32_t lineControl);
+
+/*
+ * @brief: Set the word width
+ * @param: *UARTx: Base address of the UART module
+ * @param: width: The word width to set
+ * @return: None
+ */
+void UARTWordWidthSet(UART0_Type *UARTx, uint32_t width);
+
+/*
+ * @brief: Get the word width
+ * @param: *UARTx: Base address of the UART module
+ * @return: Word width
+ */
+uint32_t UARTWordWidthGet(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable clear to send
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTClearToSendEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable clear to send
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTClearToSendDisable(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable request to send
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTReqToSendEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable request to send
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTReqToSendDisable(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable receive
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTReceiveEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable receive
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTReceiveDisable(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable transmit
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTTransmitEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable transmit
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTTransmitDisable(UART0_Type *UARTx);
 
 
+/*
+ * @brief: Enable loop back
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTLoopBackEnable(UART0_Type *UARTx);
 
+/*
+ * @brief: Disable loop back
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTLoopBackDisable(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable high speed
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTHighSpeedEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable high speed
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTHighSpeedDisable(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable EOT
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTEndOfTxEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable EOT
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTEndOfTxDisable(UART0_Type *UARTx);
+
+
+/*
+ * @brief: Enable smart card support
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTSmartEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable smart card support
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTSmartDisable(UART0_Type *UARTx);
+
+
+/*
+ * @brief: Enable SIR low power
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTSIRLowPwrEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable SIR low power
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTSIRLowPwrEDisable(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable SIR
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTSIREnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable SIR
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTSIRDisable(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable UART
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTEnable(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable UART
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTDisable(UART0_Type *UARTx);
+
+/*
+ * @brief: Set the Tx FIFO interrupt level
+ * @param: *UARTx: Base address of the UART module
+ * @param: IFL: The Tx FIFO interrupt level to set
+ * @return: None
+ */
+void UARTTxIntFIFOLvlSet(UART0_Type *UARTx, uint32_t IFL);
+
+/*
+ * @brief: Get the Tx FIFO interrupt level
+ * @param: *UARTx: Base address of the UART module
+ * @return: Tx FIFO interrupt level
+ */
+uint32_t UARTTxIntFIFOLvlGet(UART0_Type *UARTx);
+
+/*
+ * @brief: Set the Rx FIFO interrupt level
+ * @param: *UARTx: Base address of the UART module
+ * @param: IFL: The Tx FIFO interrupt level to set
+ * @return: None
+ */
+void UARTRxIntFIFOLvlSet(UART0_Type *UARTx, uint32_t IFL);
+
+/*
+ * @brief: Get the Rx FIFO interrupt level
+ * @param: *UARTx: Base address of the UART module
+ * @return: Tx FIFO interrupt level
+ */
+uint32_t UARTRxIntFIFOLvlGet(UART0_Type *UARTx);
+
+/*
+ * @brief: Enable UART interrupts
+ * @param: *UARTx: Base address of the UART module
+ * @param: interrupt: Interrupt to enable
+ * @return: None
+ */
+void UARTInterruptEnable(UART0_Type *UARTx, uint32_t interrupt);
+
+/*
+ * @brief: Disable UART interrupts
+ * @param: *UARTx: Base address of the UART module
+ * @param: interrupt: Interrupt to disable
+ * @return: None
+ */
+void UARTInterruptDisable(UART0_Type *UARTx, uint32_t interrupt);
+
+/*
+ * @brief: Get UART raw interrupt status
+ * @param: *UARTx: Base address of the UART module
+ * @param: interrupt: Raw Interrupt status to check
+ * @return: None
+ */
+void UARTRawInterruptGet(UART0_Type *UARTx, uint32_t interrupt);
+
+/*
+ * @brief: Get UART masked interrupt status
+ * @param: *UARTx: Base address of the UART module
+ * @param: interrupt: Masked Interrupt status to check
+ * @return: None
+ */
+void UARTMaskedInterruptGet(UART0_Type *UARTx, uint32_t interrupt);
+
+/*
+ * @brief: Clear UART interrupts
+ * @param: *UARTx: Base address of the UART module
+ * @param: interrupt: Interrupt to clear
+ * @return: None
+ */
+void UARTInterruptClear(UART0_Type *UARTx, uint32_t interrupt);
+
+/*
+ * @brief: Set DMA control
+ * @param: *UARTx: Base address of the UART module
+ * @param: param: DMA params to set
+ * @return: None
+ */
+void UARTDMASet(UART0_Type *UARTx, uint32_t param);
+
+/*
+ * @brief: Set 9-bit address
+ * @param: *UARTx: Base address of the UART module
+ * @param: addr: address to set
+ * @return: None
+ */
+void UART9BitAdrSet(UART0_Type *UARTx, uint8_t addr);
+
+/*
+ * @brief: Get 9-bit address
+ * @param: *UARTx: Base address of the UART module
+ * @return: The 9-bit address
+ */
+uint8_t UART9BitAdrGet(UART0_Type *UARTx);
+
+/*
+ * @brief: Mask 9-bit address
+ * @param: *UARTx: Base address of the UART module
+ * @param: mask: address mask
+ * @return: None
+ */
+void UART9BitAdrMask(UART0_Type *UARTx, uint8_t mask);
+
+/*
+ * @brief: Set peripheral properties
+ * @param: *UARTx: Base address of the UART module
+ * @param: prop: properties to set
+ * @return: None
+ */
+void UARTPeriPropSet(UART0_Type *UARTx, uint32_t prop);
+
+/*
+ * @brief: Config clock
+ * @param: *UARTx: Base address of the UART module
+ * @param: clock: clock to use
+ * @return: None
+ */
+void UARTClkConfig(UART0_Type *UARTx, uint8_t clock);
 
 #endif
