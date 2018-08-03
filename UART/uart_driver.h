@@ -240,6 +240,21 @@ void UARTReqToSendEnable(UART0_Type *UARTx);
  */
 void UARTReqToSendDisable(UART0_Type *UARTx);
 
+
+/*
+ * @brief: Enable request to send
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTReqToSendSet(UART0_Type *UARTx);
+
+/*
+ * @brief: Disable request to send
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTReqToSendClear(UART0_Type *UARTx);
+
 /*
  * @brief: Enable receive
  * @param: *UARTx: Base address of the UART module
@@ -419,15 +434,15 @@ void UARTInterruptDisable(UART0_Type *UARTx, uint32_t interrupt);
  * @brief: Get UART raw interrupt status
  * @param: *UARTx: Base address of the UART module
  * @param: interrupt: Raw Interrupt status to check
- * @return: None
+ * @return: Whether the interrupt is set
  */
-void UARTRawInterruptGet(UART0_Type *UARTx, uint32_t interrupt);
+bool UARTRawInterruptGet(UART0_Type *UARTx, uint32_t interrupt);
 
 /*
  * @brief: Get UART masked interrupt status
  * @param: *UARTx: Base address of the UART module
  * @param: interrupt: Masked Interrupt status to check
- * @return: None
+ * @return: Whether the nterrupt is set
  */
 void UARTMaskedInterruptGet(UART0_Type *UARTx, uint32_t interrupt);
 
@@ -451,9 +466,10 @@ void UARTDMASet(UART0_Type *UARTx, uint32_t param);
  * @brief: Set 9-bit address
  * @param: *UARTx: Base address of the UART module
  * @param: addr: address to set
+ * @param: enable: whether to enable 9-bit addr
  * @return: None
  */
-void UART9BitAdrSet(UART0_Type *UARTx, uint8_t addr);
+void UART9BitAdrSet(UART0_Type *UARTx, uint8_t addr, bool enable);
 
 /*
  * @brief: Get 9-bit address
@@ -485,5 +501,28 @@ void UARTPeriPropSet(UART0_Type *UARTx, uint32_t prop);
  * @return: None
  */
 void UARTClkConfig(UART0_Type *UARTx, uint8_t clock);
+
+/*
+ * @brief: Initialize UART
+ * @param: *UARTx: Base address of the UART module
+ * @return: None
+ */
+void UARTInit(UART0_Type *UARTx);
+
+/*
+ * @brief: Initialize UART
+ * @param: *UARTx: Base address of the UART module
+ * @param: tsm_buffer: pointer to data buffer
+ * @return: None
+ */
+void UARTTransmit(UART0_Type *UARTx, uint8_t *tsm_buffer);
+
+/*
+ * @brief: Initialize UART
+ * @param: *UARTx: Base address of the UART module
+ * @param: rcv_buffer: receive buffer
+ * @return: None
+ */
+void UARTReceive(UART0_Type *UARTx, uint8_t *rcv_buffer);
 
 #endif
