@@ -282,7 +282,9 @@ void UARTClkConfig(UART0_Type *UARTx, uint8_t clock){
 }
 
 
-void UARTInit(UART0_Type *UARTx);
+void UARTInit(UART0_Type *UARTx){
+  
+}
 
 
 void UARTTransmit(UART0_Type *UARTx, uint8_t *tsm_buffer);

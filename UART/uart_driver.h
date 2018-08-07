@@ -88,8 +88,8 @@
 
 /***************************Clock Init Macros*****************************/
 #define RCC_UART_CLK_ENABLE(uint32_t n)       volatile unsigned long delay0;\
-                                              SYSCTL->RCGCI2C |= (0x01 << n);\
-                                              delay0 = SYSCTL->RCGCI2C;
+                                              SYSCTL->RCGCUART |= (0x01 << n);\
+                                              delay0 = SYSCTL->RCGCUART;
 
 /****************************************************************************
  *                                                                          *
