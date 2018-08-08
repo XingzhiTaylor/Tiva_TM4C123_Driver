@@ -10,4 +10,4 @@ In the development of the project, I referenced the Udemy course *Mastering Micr
 (https://www.udemy.com/mastering-microcontroller-with-peripheral-driver-development/learn/v4/content)
 The drivers are still under development. More advanced functionalities are to be implemented in the software.
 
-The description of each driver is written separately in their directories.
+The description of each driver is **written separately in their own directories**.
