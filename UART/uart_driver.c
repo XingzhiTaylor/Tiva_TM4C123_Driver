@@ -14,13 +14,13 @@ uint8_t UARTReadByte(UART0_Type *UARTx){
 
 
 bool UARTReceiveErrorCheck(UART0_Type *UARTx, uint32_t error){
-  bool orrur = (UARTx->RSR & error);
+  bool occur = (UARTx->RSR & error);
   return occur;
 }
 
 
 void UARTClearReceiveError(UART0_Type *UARTx, uint32_t error){
-  UARTx->ECR = UART_ERR_CLEAR;
+  UARTx->RSR = UART_ERR_CLEAR;
 }
 
 
@@ -168,7 +168,7 @@ void UARTSmartDisable(UART0_Type *UARTx){
 }
 
 
-void UARTSIRLowPwrEnable(UART0_Type *UARTx);{
+void UARTSIRLowPwrEnable(UART0_Type *UARTx){
   UARTx->CTL |= UART_SIRLP;
 }
 
@@ -253,22 +253,23 @@ void UARTDMASet(UART0_Type *UARTx, uint32_t param){
 
 
 void UART9BitAdrSet(UART0_Type *UARTx, uint8_t addr, bool enable){
-  UARTx->9BITADDR = addr;
+  UARTx->_9BITADDR = addr;
   if(enable){
-    UARTx->9BITADDR |= UART_9BITEN;
+    UARTx->_9BITADDR |= UART_9BITEN;
   } else {
-    UARTx->9BITADDR &= ~UART_9BITEN;
+    UARTx->_9BITADDR &= ~UART_9BITEN;
   }
 }
 
 
 uint8_t UART9BitAdrGet(UART0_Type *UARTx){
-  uint8_t addr = (UARTx->9BITADDR & 0xFF);
+  uint8_t addr = (UARTx->_9BITADDR & 0xFF);
+	return addr;
 }
 
 
 void UART9BitAdrMask(UART0_Type *UARTx, uint8_t mask){
-  UARTx->9BITAMASK = mask;
+  UARTx->_9BITAMASK = mask;
 }
 
 
@@ -281,7 +282,7 @@ void UARTClkConfig(UART0_Type *UARTx, uint8_t clock){
   UARTx->CC |= clock;
 }
 
-
+/*
 void UARTInit(UART0_Type *UARTx){
   
 }
@@ -291,3 +292,4 @@ void UARTTransmit(UART0_Type *UARTx, uint8_t *tsm_buffer);
 
 
 void UARTReceive(UART0_Type *UARTx, uint8_t *rcv_buffer);
+*/

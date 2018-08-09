@@ -24,12 +24,12 @@ void led_init(void){
 	gpio_init(GPIO_LED_PORT, &led_conf_t);
 }
 
-void led_on(GPIOA_Type *GPIOx, uint16_t pin){
+void led_turn_on(GPIOA_Type *GPIOx, uint16_t pin){
     // Write 1 to the pin to turn on
 	gpio_write_to_pin(GPIO_LED_PORT, pin, 0x01);
 }
 
-void led_off(GPIOA_Type *GPIOx, uint16_t pin){
+void led_turn_off(GPIOA_Type *GPIOx, uint16_t pin){
     // Write 0 to the pin to turn off
 	gpio_write_to_pin(GPIO_LED_PORT, pin, 0x00);
 }
@@ -49,6 +49,8 @@ void sw_init(void){
 	
 	gpio_init(GPIO_SW_PORT, &sw_conf);
 }
+
+/*
 void delay(unsigned long halfsecs){
   unsigned long count;
   
@@ -113,3 +115,4 @@ void GPIOF_Handler(void){
 		delay(1);
 	}
 }
+*/

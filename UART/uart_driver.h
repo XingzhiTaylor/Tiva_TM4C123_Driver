@@ -33,10 +33,10 @@
 #define UART_PEN														( (uint32_t) 1 << 1 )		// Parity enable
 #define UART_BRK														( (uint32_t) 1 << 0 )		// Send break
 
-#define UART_WLEN_5BIT											( (uint32_t) 1 << 0 ) 	// 5 bit word length
-#define UART_WLEN_6BIT											( (uint32_t) 1 << 1 )		// 6 bit word length
-#define UART_WLEN_7BIT											( (uint32_t) 1 << 2 )		// 7 bit word length
-#define UART_WLEN_8BIT											( (uint32_t) 1 << 3 )		// 8 bit word length
+#define UART_WLEN_5BIT											( (uint32_t) 0x0 ) 	// 5 bit word length
+#define UART_WLEN_6BIT											( (uint32_t) 0x1 )		// 6 bit word length
+#define UART_WLEN_7BIT											( (uint32_t) 0x2 )		// 7 bit word length
+#define UART_WLEN_8BIT											( (uint32_t) 0x3 )		// 8 bit word length
 
 /* UART Control (CTL) */
 #define UART_CTSEN													( (uint32_t) 1 << 15 )		// Enable Clear to send
@@ -87,7 +87,7 @@
 #define UART_PIOSC                          ( (uint32_t) 0x5 ) // PIOSC
 
 /***************************Clock Init Macros*****************************/
-#define RCC_UART_CLK_ENABLE(uint32_t n)       volatile unsigned long delay0;\
+#define RCC_UART_CLK_ENABLE(uint32_t, n)      volatile unsigned long delay0;\
                                               SYSCTL->RCGCUART |= (0x01 << n);\
                                               delay0 = SYSCTL->RCGCUART;
 
@@ -444,7 +444,7 @@ bool UARTRawInterruptGet(UART0_Type *UARTx, uint32_t interrupt);
  * @param: interrupt: Masked Interrupt status to check
  * @return: Whether the nterrupt is set
  */
-void UARTMaskedInterruptGet(UART0_Type *UARTx, uint32_t interrupt);
+bool UARTMaskedInterruptGet(UART0_Type *UARTx, uint32_t interrupt);
 
 /*
  * @brief: Clear UART interrupts
@@ -507,7 +507,7 @@ void UARTClkConfig(UART0_Type *UARTx, uint8_t clock);
  * @param: *UARTx: Base address of the UART module
  * @return: None
  */
-void UARTInit(UART0_Type *UARTx);
+//void UARTInit(UART0_Type *UARTx);
 
 /*
  * @brief: Initialize UART
@@ -515,7 +515,7 @@ void UARTInit(UART0_Type *UARTx);
  * @param: tsm_buffer: pointer to data buffer
  * @return: None
  */
-void UARTTransmit(UART0_Type *UARTx, uint8_t *tsm_buffer);
+//void UARTTransmit(UART0_Type *UARTx, uint8_t *tsm_buffer);
 
 /*
  * @brief: Initialize UART
@@ -523,6 +523,6 @@ void UARTTransmit(UART0_Type *UARTx, uint8_t *tsm_buffer);
  * @param: rcv_buffer: receive buffer
  * @return: None
  */
-void UARTReceive(UART0_Type *UARTx, uint8_t *rcv_buffer);
+//void UARTReceive(UART0_Type *UARTx, uint8_t *rcv_buffer);
 
 #endif

@@ -52,13 +52,17 @@
  *                                                                          *
  *                  Macros used for pin initialization                      *
  *                                                                          *
- ****************************************************************************/ 
+ ****************************************************************************/
+/* GPIO unset flag */
+#define GPIO_PIN_UNSET                     	( (uint32_t)0x00 )
+
 /* GPIO mode setting values */
 #define GPIO_PIN_ANALOG                     	( (uint32_t)0x00 )
 #define GPIO_PIN_DIGITAL                    	( (uint32_t)0x01 )
 
 /* GPIO alt func setting values */
-#define GPIO_PIN_DISABLE_AF                   	( (uint32_t)0x01 )
+#define GPIO_PIN_DISABLE_AF                   	( (uint32_t)0x00 )
+#define GPIO_PIN_ENABLE_AF                   	( (uint32_t)0x01 )
 // To be implemented: 16 alt func's
 
 /* GPIO direction setting values */
@@ -83,39 +87,40 @@
  *                                                                          *
  ****************************************************************************/ 
 /* Enable the clock for different ports using RCC registers */
-#define RCC_GPIOA_CLK_ENABLE()      volatile unsigned long delay;\
+#define RCC_GPIOA_CLK_ENABLE()      volatile unsigned long delayA;\
                                     SYSCTL->RCGC2 |= (0x01 << 0);\
-                                    delay = SYSCTL->RCGC2;
-#define RCC_GPIOB_CLK_ENABLE()      volatile unsigned long delay;\
+                                    delayA = SYSCTL->RCGC2;
+#define RCC_GPIOB_CLK_ENABLE()      volatile unsigned long delayB;\
                                     SYSCTL->RCGC2 |= (0x01 << 1);\
-                                    delay = SYSCTL->RCGC2;
-#define RCC_GPIOC_CLK_ENABLE()      volatile unsigned long delay;\
+                                    delayB = SYSCTL->RCGC2;
+#define RCC_GPIOC_CLK_ENABLE()      volatile unsigned long delayC;\
                                     SYSCTL->RCGC2 |= (0x01 << 2);\
-                                    delay = SYSCTL->RCGC2;
-#define RCC_GPIOD_CLK_ENABLE()      volatile unsigned long delay;\
+                                    delayC = SYSCTL->RCGC2;
+#define RCC_GPIOD_CLK_ENABLE()      volatile unsigned long delayD;\
                                     SYSCTL->RCGC2 |= (0x01 << 3);\
-                                    delay = SYSCTL->RCGC2;
-#define RCC_GPIOE_CLK_ENABLE()      volatile unsigned long delay;\
+                                    delayD = SYSCTL->RCGC2;
+#define RCC_GPIOE_CLK_ENABLE()      volatile unsigned long delayE;\
                                     SYSCTL->RCGC2 |= (0x01 << 4);\
-                                    delay = SYSCTL->RCGC2;
-#define RCC_GPIOF_CLK_ENABLE()      volatile unsigned long delay;\
+                                    delayE = SYSCTL->RCGC2;
+#define RCC_GPIOF_CLK_ENABLE()      volatile unsigned long delayF;\
                                     SYSCTL->RCGC2 |= (0x01 << 5);\
-                                    delay = SYSCTL->RCGC2;
-#define RCC_GPIOG_CLK_ENABLE()      volatile unsigned long delay;\
+                                    delayF = SYSCTL->RCGC2;
+#define RCC_GPIOG_CLK_ENABLE()      volatile unsigned long delayG;\
                                     SYSCTL->RCGC2 |= (0x01 << 6);\
-                                    delay = SYSCTL->RCGC2;
-#define RCC_GPIOH_CLK_ENABLE()      volatile unsigned long delay;\
+                                    delayG = SYSCTL->RCGC2;
+#define RCC_GPIOH_CLK_ENABLE()      volatile unsigned long delayH;\
                                     SYSCTL->RCGC2 |= (0x01 << 7);\
-                                    delay = SYSCTL->RCGC2;
-#define RCC_GPIOI_CLK_ENABLE()      volatile unsigned long delay;\
+                                    delayH = SYSCTL->RCGC2;
+#define RCC_GPIOI_CLK_ENABLE()      volatile unsigned long delayI;\
                                     SYSCTL->RCGC2 |= (0x01 << 8);\
-                                    delay = SYSCTL->RCGC2;
+                                    delayI = SYSCTL->RCGC2;
 
 typedef struct {
     uint32_t pin;
     uint32_t mode;
     uint32_t io_type;
     uint32_t pupd;
+		uint32_t enable_alt;
     uint32_t alternate;
 } gpio_pin_conf_t;
 
@@ -167,7 +172,7 @@ static void gpio_configure_pin_pupd(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t
  *param: alt_fun_value: alternate function to be configed with
  *return: none
 */
-static void gpio_set_alt_function(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t alt_fun_value);
+static void gpio_set_alt_function(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t alt_fun_enable, uint32_t alt_fun_value);
 
 /*
  *brief: Read value from a pin
@@ -223,13 +228,13 @@ void gpio_clear_interrupt(GPIOA_Type *GPIOx, uint16_t pin_no);
 */
 void NVIC_enable_interrupt(uint16_t irq_no);
 
-/*  
+/* 
  *param  irq_no   :  irq_number to be disabled in NVIC 
  *return None
 */
 void NVIC_disable_interrupt(uint16_t irq_no);
 
-/* 
+/*
  *param  irq_no   :  irq_number to be cleared in NVIC 
  *return None
 */

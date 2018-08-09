@@ -61,14 +61,20 @@ static void gpio_configure_pin_pupd(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t
 }
 
 /*
- *brief: Activate internal pull up or pull down resistors
+ *brief: Set alternate functions
  *param: *GPIOx: GPIO port base address
  *param: pin_no: GPIO pin #
  *param: alt_fun_value: alternate function to be configed with
  *return: none
 */
-static void gpio_set_alt_function(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t alt_fun_value){
-    GPIOx->PCTL |= (alt_fun_value << (4 * pin_no)); // Choose alt func	
+static void gpio_set_alt_function(GPIOA_Type *GPIOx, uint16_t pin_no, uint32_t alt_fun_enable, uint32_t alt_fun_value){
+	if(alt_fun_enable){
+		GPIOx->AFSEL |= (0x01 << pin_no); // Enable alt func
+		GPIOx->PCTL |= (alt_fun_value << (4 * pin_no)); // Choose alt func
+	} else {
+		GPIOx->AFSEL &= ~(0x01 << pin_no); // Disable alt func
+    GPIOx->PCTL &= (0x00 << (4 * pin_no)); // Set PCTL to 0x0
+	}
 }
 
 /*
@@ -105,16 +111,20 @@ void gpio_write_to_pin(GPIOA_Type *GPIOx, uint16_t pin_no, uint8_t val) {
  *return: none
 */
 void gpio_init(GPIOA_Type *GPIOx, gpio_pin_conf_t *gpio_pin_conf){
-    //unlock
-    gpio_configure_pin_unlock(GPIOx, gpio_pin_conf->pin);
-    //alternate func
-    gpio_set_alt_function(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->alternate);
-    //mode
-    gpio_configure_pin_mode(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->mode);
-    //dir
-    gpio_configure_pin_iotype(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->io_type);
-    //enable pupd
-    gpio_configure_pin_pupd(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->pupd);
+	//unlock
+	gpio_configure_pin_unlock(GPIOx, gpio_pin_conf->pin);
+	//alternate func
+	if(gpio_pin_conf->alternate != GPIO_PIN_UNSET)
+	gpio_set_alt_function(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->enable_alt, gpio_pin_conf->alternate);
+	//mode
+	if(gpio_pin_conf->mode != GPIO_PIN_UNSET)
+	gpio_configure_pin_mode(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->mode);
+	//dir
+	if(gpio_pin_conf->io_type != GPIO_PIN_UNSET)
+	gpio_configure_pin_iotype(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->io_type);
+	//enable pupd
+	if(gpio_pin_conf->pupd != GPIO_PIN_UNSET)
+	gpio_configure_pin_pupd(GPIOx, gpio_pin_conf->pin, gpio_pin_conf->pupd);
 }
 
 /*
@@ -190,7 +200,7 @@ void NVIC_enable_interrupt(uint16_t irq_no){
 	}
 }
 
-/* 
+/*
  *param  irq_no   :  irq_number to be disabled in NVIC 
  *return None
 */
