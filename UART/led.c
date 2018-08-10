@@ -41,12 +41,15 @@ void led_toggle(GPIOA_Type *GPIOx, uint16_t pin){
 
 void sw_init(void){
 	gpio_pin_conf_t sw_conf;
-	sw_conf.pin = SW_PIN;
+	sw_conf.pin = GPIO_SW1_PIN;
 	sw_conf.alternate = GPIO_PIN_DISABLE_AF;
 	sw_conf.io_type = GPIO_PIN_INPUT;
 	sw_conf.mode = GPIO_PIN_DIGITAL;
 	sw_conf.pupd = GPIO_PIN_PULL_UP;
 	
+	gpio_init(GPIO_SW_PORT, &sw_conf);
+	
+	sw_conf.pin = GPIO_SW2_PIN;
 	gpio_init(GPIO_SW_PORT, &sw_conf);
 }
 

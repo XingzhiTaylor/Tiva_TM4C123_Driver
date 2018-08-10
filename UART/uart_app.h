@@ -12,6 +12,7 @@
 #define UART_ALT_FUN						0x1
 #define GPIO_PA_1								1
 #define GPIO_PA_0								0
+#define GPIOF_IRQ_NUMBER				30
 #define UART_TX_PIN							GPIO_PA_1
 #define UART_RX_PIN							GPIO_PA_0
 
