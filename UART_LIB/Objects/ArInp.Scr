@@ -1,0 +1,4 @@
+--create .\Objects\uart_debug.lib
+.\objects\uart_debug.o
+.\objects\gpio_driver.o
+.\objects\uart_driver.o

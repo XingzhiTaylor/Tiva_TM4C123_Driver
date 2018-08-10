@@ -60,11 +60,11 @@ void uart_init(void){
 }
 
 void UARTTransmit(UART0_Type* UARTx, uint8_t *tsm_buffer){
-  while(UARTFlagCheck(UART_MODULE, UART_BUSY)); // Wait until not busy
+  while(UARTFlagCheck(UARTx, UART_BUSY)); // Wait until not busy
   
   while(*tsm_buffer != 0){
     if (!UARTFlagCheck(UARTx, UART_TXFF)) { // Write data if not full
-      UARTWriteByte(UART_MODULE, (*tsm_buffer));
+      UARTWriteByte(UARTx, (*tsm_buffer));
     }
     tsm_buffer ++;
 		// Wait for a little while before the next TX
