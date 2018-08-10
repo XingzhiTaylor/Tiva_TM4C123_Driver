@@ -2,3 +2,4 @@ GPIO/Objects/* linguist-vendored
 SPI/Objects/* linguist-vendored
 I2C/Objects/* linguist-vendored
 UART/Objects/* linguist-vendored
+UART_LIB/Objects/* linguist-vendored
