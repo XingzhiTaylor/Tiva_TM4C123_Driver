@@ -199,6 +199,9 @@ void UARTDisable(UART0_Type *UARTx){
 
 
 void UARTTxIntFIFOLvlSet(UART0_Type *UARTx, uint32_t IFL){
+  // Reset the value to 0 first
+	UARTx->IFLS &= ~(7 << 0);
+	// Set the value
   UARTx->IFLS |= (IFL << 0);
 }
 
@@ -210,6 +213,9 @@ uint32_t UARTTxIntFIFOLvlGet(UART0_Type *UARTx){
 
 
 void UARTRxIntFIFOLvlSet(UART0_Type *UARTx, uint32_t IFL){
+	// Reset the value to 0 first
+	UARTx->IFLS &= ~(7 << 3);
+	// Set the value
   UARTx->IFLS |= (IFL << 3);
 }
 
