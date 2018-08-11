@@ -48,6 +48,7 @@ The GPIO can sense interrupts. The pin can be set to raise interrupt when
 - Falling edge detected
 - Both edge detected
 - Voltage level detected
+
 The interrupt can be masked using interrupt mask register. Only unmasked interrupts can be received by the processor. The interrupt status before masking is provided in raw interrupt status register. The interrupt should be cleared using the interrupt clear register after being handled. Otherwise the proccessor will keep receiving the interrupt signal
 #### Mode Control
 The GPIO can be configured to different modes including SPI, I2C, UART, PWM, etc. This can be done by enabling alt func and writing correspoding alt func code to the port control register.
