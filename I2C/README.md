@@ -51,7 +51,7 @@ I2C protocol allows master/slave to send acknowlegde signal to indicate whether 
 #### Repeated Start
 In some cases, the master need to read before write or write before read. In the transition from write to read, a STOP needs to be generated before the next START. However, since there are multiple slaves on the bus line, after a STOP is generated, the slave might be taken by another master before the next START is generated. 
 I2C allows repeated START. Repeated START allows the master to generate the next START without generating a STOP. When the master wants to switch from write to read or the other way around, a repeated START is generated.
-####Arbitration
+#### Arbitration
 Is is possible that multiple masters place START on SDA at the same time. In this case, arbitration takes place. When multiple masters place START within minimum hold time, the first master places 1 on SDA while the others transmits 0 and wait until SDA becomes idle again.
 #### Clock Stretching
 Different from SPI where the slave has no control on clock, when the slave is unavailable to transmit any data for the master, it pulls the SCL line to low until it's available. This is called clock stretching.
