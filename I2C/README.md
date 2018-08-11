@@ -38,6 +38,7 @@ There are two lines involved in I2C transmission, SDA and SCL. Different from SP
 Similar to SPI, I2C is also a synchronized protocol. There is a clock line SCL on which the master provides its clock signal. 
 #### SDA
 This line conveys the data. Different from SPI, this line is bidirectional, which means data can be transmitted in both direction on this one line. Both SCL and SDA line need a pull up resistor. The pull-up resistor can be enabled in the I2C module or at the GPIO pin.
+Data bit can only change when SCL is low. Otherwise the wrong data might be sampled.
 ### Transmission Frame
 Compared to SPI, the data frame of I2C is more complicated.
 #### START and STOP Conditions
@@ -45,7 +46,7 @@ I2C defines two states indicating the start and stop of data transmission. When 
 #### Slave Address
 In I2C communication, each slave device has an own address, and the master locates the slave using its own address. In dual address mode, the slave can have a alternative address. The address is usually 7-bit, and 10-bit address is also allowed
 #### Data Direction
-Since there is only one data line, data direction is indicated in each transmision. There is a read/write bit in each transmission, where 1 indicates a master read and 0 indicates a master write.
+Since there is only one data line, data direction is indicated in each transmision. There is a read/write bit in each transmission, where 1 indicates a master read and 0 indicates a master write. In I2c, the most significant bit is transmitted first.
 #### ACK and NACK
 I2C protocol allows master/slave to send acknowlegde signal to indicate whether it's ok to continue the transmission. In the ACK phase, if SDA is 0, an ACK signal is sent and the transmission continues. If SDA is 1, a NACK is sent and the transmission aborts.
 #### Repeated Start
